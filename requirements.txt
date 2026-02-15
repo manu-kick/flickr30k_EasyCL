@@ -1,0 +1,13 @@
+torch
+torchvision
+# torchaudio
+gensim 
+scikit-learn
+matplotlib
+nltk
+wandb
+pyyaml
+# librosa
+pandas
+# plotly
+# kaleido

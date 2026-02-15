@@ -1,0 +1,9 @@
+.*png
+wandb
+plots_ring
+.*zip
+__pycache__
+*.bin
+*.pyc
+*.kv
+*.npy
