@@ -1,6 +1,7 @@
 .*png
 wandb
 plots_ring
+plot
 .*zip
 __pycache__
 *.bin
