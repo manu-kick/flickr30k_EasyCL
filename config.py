@@ -9,6 +9,7 @@ class Config:
 
     embedding_dim: int = 128
     output_dim: int = 128
+    reproject_with_shared_head: bool = False
     w2v_path: str = "./GoogleNews-vectors-negative300.bin"
 
     batch_size: int = 32
@@ -30,7 +31,7 @@ class Config:
 
     def finalize(self):
         if not self.run:
-            self.run = f"tau_{self.contra_temp_init}_learnable({self.contra_temp_learnable})_embdim{self.embedding_dim}"
+            self.run = f"SharedHead_tau_{self.contra_temp_init}_learnable({self.contra_temp_learnable})_embdim{self.embedding_dim}"
 
     def log_config(self) -> Dict[str, Any]:
         return asdict(self)

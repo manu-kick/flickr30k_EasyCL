@@ -4,6 +4,9 @@ import wandb
 
 import torch
 
+## varianza nella coppia i,i per le 2 modalità (la coppia i i è una classe)
+
+
 def fisher_ratio(cf, text_embeddings, vision_embeddings, iterations, eps=1e-12):
     """
     Fisher ratio with NO labels for Flickr30k:

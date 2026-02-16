@@ -1,0 +1,4 @@
+reproject_with_shared_head: True
+embedding_dim: 512
+contra_temp_init : 0.07
+contra_temp_learnable : True

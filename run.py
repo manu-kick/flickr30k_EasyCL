@@ -12,6 +12,7 @@ import wandb
 
 from models.text_encoder import TextEncoder
 from models.img_encoder import VisionEncoder
+from models.shared_head import SharedHead
 from dataloader import get_dataloaders
 from pipelines import train_model_with_visualization
 
@@ -51,8 +52,13 @@ def run_experiment(cf):
     text_encoder = TextEncoder(word2vec_model_path=cf.w2v_path, embedding_size=cf.embedding_dim).to(device)
     vision_encoder = VisionEncoder(input_channels=3, output_dim=cf.embedding_dim).to(device)
 
+    if cf.reproject_with_shared_head:
+        shared_head = SharedHead(d_in=cf.embedding_dim, d_shared=cf.embedding_dim).to(device)
+ 
     contra_temp = nn.Parameter(torch.tensor(cf.contra_temp_init, device=device))
-    params = list(text_encoder.parameters()) + list(vision_encoder.parameters())
+    params = list(text_encoder.parameters()) + list(vision_encoder.parameters() )
+    if cf.reproject_with_shared_head:
+        params += list(shared_head.parameters())
     if cf.contra_temp_learnable:
         params += [contra_temp]
 
@@ -64,6 +70,7 @@ def run_experiment(cf):
         cf,
         text_encoder,
         vision_encoder,
+        shared_head if cf.reproject_with_shared_head else None,
         train_loader,
         val_loader,
         optimizer,
@@ -77,9 +84,9 @@ def run_experiment(cf):
 
 
 def main():
-    configs = load_configs_from_dir("./config_dir")
+    configs = load_configs_from_dir("./config_dir/shared_head")
 
-    print(f"Found {len(configs)} configs in {'./config_dir'}:")
+    print(f"Found {len(configs)} configs in {'./config_dir/shared_head'}:")
     for i, (path, cf) in enumerate(configs, 1):
         print(f"\n=== Running experiment {i}/{len(configs)} ===")
         print(f"Config: {path}")

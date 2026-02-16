@@ -102,8 +102,9 @@ class TextEncoder(nn.Module):
                 sentence_embedding = np.zeros(self.word2vec.vector_size)
             
             # Convert to tensor and project to desired embedding size
+            device = next(self.parameters()).device  # Get the device of the model parameters
             sentence_embedding = torch.tensor(sentence_embedding, dtype=torch.float32)
-            sentence_embedding = sentence_embedding.to('cuda')
+            sentence_embedding = sentence_embedding.to(device)
             sentence_embedding = self.projection_layer(sentence_embedding)
             
             all_sentence_embeddings.append(sentence_embedding)
